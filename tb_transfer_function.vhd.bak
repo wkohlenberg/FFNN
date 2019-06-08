@@ -1,0 +1,50 @@
+--
+-- This file is an automatically generated VHDL testbench
+-- by MakeTestBench (version 1.703)
+-- 
+-- Created on     :  24 May 2019
+--    with option :  -package numeric_std
+--
+-- Tested entity        :  transfer_function
+-- Tested entity from   :  transfer_function.vhd
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity testbench is
+end entity testbench;
+
+architecture tb_transfer_function of testbench is
+  component transfer_function is
+    port (
+      input : in std_logic_vector(16 downto 0);
+      y : out std_logic_vector(8 downto 0)
+    );
+  end component transfer_function;
+
+  for uut : transfer_function use entity work.transfer_function(transfer_function_behaviour);
+
+
+  signal input : std_logic_vector(16 downto 0);
+  signal y : std_logic_vector(8 downto 0);
+
+
+--
+-- place your own declarations here
+--
+
+begin
+  uut : transfer_function port map (
+    input => input,
+    y => y
+  );
+
+--
+-- place your own stimuli here
+--
+
+  input <= ;
+
+end architecture tb_transfer_function;
+

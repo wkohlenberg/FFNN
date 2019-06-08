@@ -1,0 +1,89 @@
+--
+-- This file is an automatically generated VHDL testbench
+-- by MakeTestBench (version 1.703)
+-- 
+-- Created on     :  23 May 2019
+--    with option :  -package numeric_std
+--
+-- Tested entity        :  neuron
+-- Tested entity from   :  neuron.vhd
+--
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity testbench is
+end entity testbench;
+
+architecture tb_neuron of testbench is
+  component neuron is
+    port (
+      clk : in std_logic;
+      rst_n : in std_logic;
+      input_1 : in std_logic_vector(8 downto 0);
+      input_2 : in std_logic_vector(8 downto 0);
+      input_bias : in std_logic_vector(8 downto 0);
+      weight_1 : in std_logic_vector(16 downto 0);
+      weight_2 : in std_logic_vector(16 downto 0);
+      weight_bias : in std_logic_vector(16 downto 0);
+      start : in std_logic;
+      n_inputs_used : in std_logic_vector(2 downto 0);
+      result : out std_logic_vector(8 downto 0);
+      ready : out std_logic
+    );
+  end component neuron;
+
+  for uut : neuron use entity work.neuron(neuron_behaviour);
+
+
+  signal clk : std_logic;
+  signal rst_n : std_logic;
+  signal input_1 : std_logic_vector(8 downto 0);
+  signal input_2 : std_logic_vector(8 downto 0);
+  signal input_bias : std_logic_vector(8 downto 0);
+  signal weight_1 : std_logic_vector(16 downto 0);
+  signal weight_2 : std_logic_vector(16 downto 0);
+  signal weight_bias : std_logic_vector(16 downto 0);
+  signal start : std_logic;
+  signal n_inputs_used : std_logic_vector(2 downto 0);
+  signal result : std_logic_vector(8 downto 0);
+  signal ready : std_logic;
+
+
+--
+-- place your own declarations here
+--
+
+begin
+  uut : neuron port map (
+    clk => clk,
+    rst_n => rst_n,
+    input_1 => input_1,
+    input_2 => input_2,
+    input_bias => input_bias,
+    weight_1 => weight_1,
+    weight_2 => weight_2,
+    weight_bias => weight_bias,
+    start => start,
+    n_inputs_used => n_inputs_used,
+    result => result,
+    ready => ready
+  );
+
+--
+-- place your own stimuli here
+--
+
+  clk <= ;
+  rst_n <= ;
+  input_1 <= ;
+  input_2 <= ;
+  input_bias <= ;
+  weight_1 <= ;
+  weight_2 <= ;
+  weight_bias <= ;
+  start <= ;
+  n_inputs_used <= ;
+
+end architecture tb_neuron;
+
