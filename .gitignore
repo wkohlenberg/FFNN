@@ -1,0 +1,11 @@
+.metadata
+.qsys_edit/
+RemoteSystemsTempFiles/
+*.stp
+core
+db/
+incremental_db/
+output_files/
+python/
+serv_req_info.txt
+simulation/
