@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Jun 7, 2019 1:52:22 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1559908342595</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>Jun 8, 2019 9:24:47 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1560021887849</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>/home/walterkohlenberg/Documents/Etech/Jaar4/VES/Projects/FFNN/software/ffnn_project_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>../../layer_controller.sopcinfo</SopcDesignFile>
