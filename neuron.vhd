@@ -11,13 +11,13 @@ entity neuron is
 		input_2			: in std_logic_vector(8 downto 0);
 		input_3			: in std_logic_vector(8 downto 0);
 		input_4			: in std_logic_vector(8 downto 0);
-		input_bias		: in std_logic_vector(8 downto 0);
+		input_5			: in std_logic_vector(8 downto 0);
 		
 		weight_1			: in std_logic_vector(16 downto 0);
 		weight_2			: in std_logic_vector(16 downto 0);
 		weight_3			: in std_logic_vector(16 downto 0);
 		weight_4			: in std_logic_vector(16 downto 0);
-		weight_bias		: in std_logic_vector(16 downto 0);
+		weight_5			: in std_logic_vector(16 downto 0);
 		
 		start				: in std_logic;
 		n_inputs_used	: in std_logic_vector(2 downto 0);
@@ -44,7 +44,7 @@ architecture neuron_behaviour of neuron is
 	signal multi_2						: std_logic_vector(16 downto 0);
 	signal multi_3						: std_logic_vector(16 downto 0);
 	signal multi_4						: std_logic_vector(16 downto 0);
-	signal multi_bias					: std_logic_vector(16 downto 0);
+	signal multi_5						: std_logic_vector(16 downto 0);
 	signal sum							: std_logic_vector(16 downto 0);
 	signal sigma_reg					: std_logic_vector(16 downto 0);
 	
@@ -81,8 +81,8 @@ begin
 									weight_reg	<= weight_3;
 				when "011" 	=>	input_reg 	<= input_4;
 									weight_reg	<= weight_4;
-				when "100" =>	input_reg 	<= input_bias;
-									weight_reg	<= weight_bias;
+				when "100" =>	input_reg 	<= input_5;
+									weight_reg	<= weight_5;
 				when others =>	input_reg 	<= (others => '0');
 									weight_reg	<= (others => '0');
 			end case;
@@ -103,14 +103,20 @@ begin
 		end if;
 	end process multiply;
 	
-	demultiplexer : process (clk, rst_n) is
+	demultiplexer : process (clk, rst_n, start) is
 	begin
 		if rst_n = '0' then
 			multi_1 <= (others => '0');
 			multi_2 <= (others => '0');
 			multi_3 <= (others => '0');
 			multi_4 <= (others => '0');
-			multi_bias <= (others => '0');
+			multi_5 <= (others => '0');
+		elsif start = '0' then
+			multi_1 <= (others => '0');
+			multi_2 <= (others => '0');
+			multi_3 <= (others => '0');
+			multi_4 <= (others => '0');
+			multi_5 <= (others => '0');		
 		elsif rising_edge(clk) then
 			if load_multi = '1' then			
 				case sel_mux is 
@@ -119,7 +125,8 @@ begin
 					when "001" => multi_2 <= multiplicant(24 downto 8);
 					when "010" => multi_3 <= multiplicant(24 downto 8);
 					when "011" => multi_4 <= multiplicant(24 downto 8);
-					when others => multi_bias <= multiplicant(24 downto 8);
+					when "100" => multi_5 <= multiplicant(24 downto 8);
+					when others => multi_5 <= multiplicant(24 downto 8);
 				end case;
 			end if;
 		end if;
@@ -130,7 +137,7 @@ begin
 		if rst_n = '0' then
 			sum <= (others => '0');
 		elsif rising_edge(clk) then
-			sum <= std_logic_vector(unsigned(multi_1(16) & multi_1(15 downto 0)) + unsigned(multi_2(16) & multi_2(15 downto 0)) + unsigned(multi_3(16) & multi_3(15 downto 0)) + unsigned(multi_4(16) & multi_4(15 downto 0)) + unsigned(multi_bias(16) & multi_bias(15 downto 0)));
+			sum <= std_logic_vector(unsigned(multi_1(16) & multi_1(15 downto 0)) + unsigned(multi_2(16) & multi_2(15 downto 0)) + unsigned(multi_3(16) & multi_3(15 downto 0)) + unsigned(multi_4(16) & multi_4(15 downto 0)) + unsigned(multi_5(16) & multi_5(15 downto 0)));
 		end if;
 	end process sigma;
 	
@@ -160,9 +167,12 @@ begin
 		end if;
 	end process state_reg;
 	
-	output_decoder : process (clk, rst_n) is
+	output_decoder : process (clk, rst_n, start) is
 	begin
 		if rst_n = '0' then
+			raise_sel_mux <= '0';
+			sel_mux <= (others => '0');
+		elsif start = '0' then
 			raise_sel_mux <= '0';
 			sel_mux <= (others => '0');
 		elsif rising_edge(clk) then

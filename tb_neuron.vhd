@@ -24,12 +24,12 @@ architecture tb_neuron of testbench is
 			input_2 : in std_logic_vector(8 downto 0);
 			input_3 : in std_logic_vector(8 downto 0);
 			input_4 : in std_logic_vector(8 downto 0);
-			input_bias : in std_logic_vector(8 downto 0);
+			input_5 : in std_logic_vector(8 downto 0);
 			weight_1 : in std_logic_vector(16 downto 0);
 			weight_2 : in std_logic_vector(16 downto 0);
 			weight_3 : in std_logic_vector(16 downto 0);
 			weight_4 : in std_logic_vector(16 downto 0);
-			weight_bias : in std_logic_vector(16 downto 0);
+			weight_5 : in std_logic_vector(16 downto 0);
 			start : in std_logic;
 			n_inputs_used : in std_logic_vector(2 downto 0);
 			result : out std_logic_vector(8 downto 0);
@@ -46,12 +46,12 @@ architecture tb_neuron of testbench is
 	signal input_2 : std_logic_vector(8 downto 0);
 	signal input_3 : std_logic_vector(8 downto 0);
 	signal input_4 : std_logic_vector(8 downto 0);
-	signal input_bias : std_logic_vector(8 downto 0);
+	signal input_5 : std_logic_vector(8 downto 0);
 	signal weight_1 : std_logic_vector(16 downto 0);
 	signal weight_2 : std_logic_vector(16 downto 0);
 	signal weight_3 : std_logic_vector(16 downto 0);
 	signal weight_4 : std_logic_vector(16 downto 0);
-	signal weight_bias : std_logic_vector(16 downto 0);
+	signal weight_5 : std_logic_vector(16 downto 0);
 	signal start : std_logic;
 	signal n_inputs_used : std_logic_vector(2 downto 0);
 	signal result : std_logic_vector(8 downto 0);
@@ -72,12 +72,12 @@ begin
 		input_2 => input_2,
 		input_3 => input_3,
 		input_4 => input_4,
-		input_bias => input_bias,
+		input_5 => input_5,
 		weight_1 => weight_1,
 		weight_2 => weight_2,
 		weight_3 => weight_3,
 		weight_4 => weight_4,
-		weight_bias => weight_bias,
+		weight_5 => weight_5,
 		start => start,
 		n_inputs_used => n_inputs_used,
 		result => result,
@@ -103,7 +103,7 @@ begin
 	-- 	wait for 2 * HALF_CLOCK_PERIOD;
 		
 	-- 	start <= '1';
-	-- 	n_inputs_used <= "011";								-- 3
+	-- 	n_inputs_used <= "010";								-- 3 - 1 (because counting from zero)
 		
 	-- end process;
 	
@@ -142,8 +142,22 @@ begin
 		start <= '1';
 		n_inputs_used <= "010";
 		
-		wait for 400 ns;
+		wait for 300 ns;
 		start <= '0';
+		
+		input_1 		<= "011111111";				-- 0.99609375
+	 	input_2 		<= "011111111";				-- 0.99609375
+		
+	 	weight_1 	<= "00000000100110110";				-- 1.2109375
+	 	weight_2		<= "00000000101010010";				-- 1.3203125
+		
+	 	wait for 2 * HALF_CLOCK_PERIOD;
+		
+	 	start <= '1';
+	 	n_inputs_used <= "001";				
+
+		wait;
+		
 	end process signal_generator;
 	
 end architecture tb_neuron;
