@@ -142,7 +142,7 @@ begin
 		start <= '1';
 		n_inputs_used <= "010";
 		
-		wait for 300 ns;
+		wait for 350 ns;
 		start <= '0';
 		
 		input_1 		<= "011111111";				-- 0.99609375
