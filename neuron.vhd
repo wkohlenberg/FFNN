@@ -46,13 +46,13 @@ architecture neuron_behaviour of neuron is
 	signal multi_4						: std_logic_vector(16 downto 0);
 	signal multi_5						: std_logic_vector(16 downto 0);
 	signal sum							: std_logic_vector(16 downto 0);
-	signal sigma_reg					: std_logic_vector(16 downto 0);
+	--signal sigma_reg					: std_logic_vector(16 downto 0);
 	
 	-- control signals
 	signal sel_mux						: std_logic_vector(2 downto 0);
 	signal load_data					: std_logic;
 	signal load_multi					: std_logic;
-	signal load_sigma					: std_logic;
+	--signal load_sigma					: std_logic;
 	signal load_lut					: std_logic;
 	
 	-- status signals
@@ -141,16 +141,16 @@ begin
 		end if;
 	end process sigma;
 	
-	sigma_reg_load : process (clk, rst_n) is
-	begin
-		if rst_n = '0' then
-			sigma_reg <= (others => '0');
-		elsif rising_edge(clk) then
-			if load_sigma = '1' then
-				sigma_reg <= sum;
-			end if;
-		end if;
-	end process sigma_reg_load;
+	--sigma_reg_load : process (clk, rst_n) is
+	--begin
+	--	if rst_n = '0' then
+	--		sigma_reg <= (others => '0');
+	--	elsif rising_edge(clk) then
+	--		if load_sigma = '1' then
+	--			sigma_reg <= sum;
+	--		end if;
+	--	end if;
+	--end process sigma_reg_load;
 	
 	activation : entity work.transfer_function(transfer_function_behaviour)
 		port map(clk => clk, rst_n => rst_n, load => load_lut, input => sum, y => result, eop => finished);
@@ -229,6 +229,11 @@ begin
 					if finished = '1' then
 						ready <= '1';
 						reg_fstate <= SIDLE;
+						if start = '1' then
+							reg_fstate <= SLUT;
+						else 
+							reg_fstate <= SIDLE;
+						end if;
 					else
 						ready <= '0';
 						reg_fstate <= SLUT;
@@ -241,7 +246,7 @@ begin
 	
 	load_data <= '1' when fstate = SDATA else '0';
 	load_multi <= '1' when fstate = SLOAD else '0';
-	load_sigma <= '1' when fstate = SSIG else '0';
+	--load_sigma <= '1' when fstate = SSIG else '0';
 	load_lut <= '1' when fstate = SLUT else '0';
 	
 end architecture neuron_behaviour;
