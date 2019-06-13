@@ -98,7 +98,7 @@ begin
 		elsif rising_edge(clk) then
 			if load_data = '1' then
 				-- signed to fixed Q8.8 + sign bit
-				multiplicant <= std_logic_vector( unsigned(input_fixed) * unsigned(weight_reg));
+				multiplicant <= std_logic_vector( signed(input_fixed) * signed(weight_reg));
 			end if;
 		end if;
 	end process multiply;
