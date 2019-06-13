@@ -142,8 +142,9 @@ ACDS_VERSION := 18.1
 ELF := ffnn_project.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS := main.c
-CXX_SRCS :=
+C_SRCS :=
+CXX_SRCS += main.cpp
+CXX_SRCS += neuron.cpp
 ASM_SRCS :=
 
 
